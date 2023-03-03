@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPTbyDali2g</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"
+        rel="stylesheet" />
+
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins';
+    }
+
+    body {
+        background-color: #5F9EA0;
+    }
+
+    header {
+        background-color: #2b2d42;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+    }
+
+    h1 {
+        color: #ffffff;
+        font-size: 32px;
+    }
+
+    .container {
+        width: 800px;
+        padding: 20px;
+        border-radius: 4px;
+        margin: 50px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .inputbox {
+        border: 2px solid #2b2d42;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .inputbox input {
+        width: 90%;
+        border: none;
+        outline: none;
+        padding: 20px;
+        font-size: 24px;
+    }
+
+
+    button {
+        font-size: 17px;
+        padding: 0.4em 2em;
+        border: transparent;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        background: #5F9EA0;
+        color: white;
+        border-radius: 4px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: rgb(2, 0, 0);
+        background: linear-gradient(90deg, rgba(30, 144, 255, 1) 0%, rgba(0, 212, 255, 1) 100%);
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        transform: translate(0em, 0.2em);
+    }
+
+    #result {
+        width: 100%;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0);
+        margin: 30px 0;
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="inputbox">
+            <input type="text" placeholder="Ask me anything :)" autocomplete="off">
+            <button id="btn">Send</button>
+        </div>
+    </div>
+    <div id="result">
+        <p id="resulttext">
+
+        </p>
+    </div>
+</body>
+
+<script>
+    const url = "http://localhost:3000/data";
+    const input = document.querySelector("input");
+    const resultText = document.querySelector("#resulttext");
+    const result = document.querySelector("#result");
+    const btn = document.querySelector("button");
+
+    btn.addEventListener("click", () => {
+        const inputVal = input.value;
+        if (!inputVal) return;
+        input.value = "";
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ input: inputVal })
+        })
+            .then(response => response.json())
+            .then(resp => {
+                console.log(resp);
+                resultText.innerText = resp.output;
+                result.style.display = "block";
+            })
+            .catch(error => console.error(error));
+    });
+</script>
+
+</html>
