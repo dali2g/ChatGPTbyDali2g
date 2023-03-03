@@ -8,7 +8,7 @@ const prompt = 'Hello, how are you?';
 const max_tokens = 3000;
 const app = express();
 const port = 3000;
-const api_key = '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';
+const api_key = 'Put Your API key Here';
 
 app.get('/', (req, res) => {
   res.sendFile('C:/Users/dalim/OneDrive/Desktop/ChatGPTbyDali2g/index.html');
